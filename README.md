@@ -1,6 +1,6 @@
 # cfDNA Metagenomic Classification Pipeline
 
-Thesis project code: cell-free DNA (cfDNA) sequencing with metagenomic
+Cell-free DNA (cfDNA) sequencing with metagenomic
 taxonomic classification. Scripts run on a SLURM HPC cluster and are numbered
 in the order they were executed.
 
@@ -11,7 +11,7 @@ scripts/
   01_pre_filter_qc.sh
   02_filter_by_quality.sh
   03_post_filter_qc.sh
-logs/            # SLURM stdout/stderr (not tracked)
+logs/
 ```
 
 ## Pipeline overview
@@ -23,9 +23,6 @@ logs/            # SLURM stdout/stderr (not tracked)
 | 03 | `03_post_filter_qc.sh` | FastQC on filtered reads | filtered `.fastq.gz` | `fastqc_post/` reports |
 
 ## Data
-
-- <!-- TODO: describe cfDNA sample cohort, accession numbers, read length -->
-- NTC = non-template control samples.
 
 ## Step details
 
@@ -43,24 +40,7 @@ each read is used downstream (pairing not required).
 **03 Post-filter QC.** FastQC (v0.11.7) on the filtered reads to confirm
 improvement relative to step 01.
 
-## Known issues / consistency log
-
-Track anything that doesn't line up between steps here; resolve or explain
-before publishing.
-
-| # | Step(s) | Issue | Status |
-|---|---------|-------|--------|
-| 1 | 02 -> 03 | Step 03 reads `temp/`, step 02 outputs to `temp/new_temp/` | Open |
-| 2 | 01 -> 02 | Step 01 input directory is unconfirmed, and the step that placed files into `temp/` with `_filter` suffix is undocumented | Open |
-| 3 | 02 | Adapter file passed as `${1}`; unclear if supplied at run time | Open |
-| 4 | 02 | R1/R2 filtered separately (SE mode) | Resolved - intentional (5' ends only) |
-| 5 | 02 | `-threads 4` vs `--cpus-per-task=1` | Open |
-| 6 | 01 / 03 | FastQC versions differ (0.12.1 vs 0.11.7) | Open |
-
 ## Script commenting convention
 
 Every script starts with the SBATCH block, then a header with: STEP, PURPOSE,
 INPUT, OUTPUT, TOOLS, RUN, PREV/NEXT, NOTES. Sections inside the script use
-`# --- Section ---` dividers. Tags: `NOTE` (context), `WARNING` (can cause
-wrong results), `FIXME` (known problem to resolve), `ADDED` (changed after the
-original run).
